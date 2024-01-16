@@ -2,13 +2,11 @@ const express = require("express")
 const app = express()
 const server = require("http").createServer(app);
 const qrcode = require("qrcode")
-const { Client, LocalAuth } = require("whatsapp-web.js")
+const { Client } = require("whatsapp-web.js")
 
 let isActive = false
 
-const client = new Client({
-  authStrategy: new LocalAuth()
-})
+const client = new Client()
 
 const io = require("socket.io")(server, {
   cors: {
@@ -40,7 +38,7 @@ io.on("connection", (socket) => {
   client.on("ready", () => {
     socket.emit("qr", "https://static.vecteezy.com/system/resources/thumbnails/001/200/261/small/check.png");
   })
-  
+
   console.log("User connected: " + socket.id)
 })
 
